@@ -6,8 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "start:dev": "nodemon index.js",
-    "heroku-postbuild": "cd frontend && npm install && npm run build"
+    "start:dev": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
