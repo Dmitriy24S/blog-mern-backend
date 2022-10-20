@@ -68,6 +68,7 @@ app.get('/auth/me', checkAuth, UserController.getMe)
 
 // Posts
 app.get('/posts', PostController.getAll)
+app.get('/postspopular', PostController.getAllPopular)
 app.get('/posts/:id', PostController.getOne)
 app.post('/posts', checkAuth, postCreateValidation, handleValidationErrors, PostController.create)
 app.patch(

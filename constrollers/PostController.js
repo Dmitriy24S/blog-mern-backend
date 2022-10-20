@@ -40,6 +40,47 @@ export const getAll = async (req, res) => {
   }
 }
 
+export const getAllPopular = async (req, res) => {
+  try {
+    // sort by viewcount
+    const posts = await PostModel.find().sort({ viewsCount: -1 }).populate('user').exec()
+    res.json(posts)
+    // {
+    //     "_id": "633c274f32b76695bd10415d",
+    //     "title": "Title title title2",
+    //     "body": "body body body2",
+    //     "tags": [
+    //         "hi"
+    //     ],
+    //     "viewerCount": 0,
+    //     "user": "633b2144ad263568ee0fff69",
+    //     "createdAt": "2022-10-04T12:30:07.435Z",
+    //     "updatedAt": "2022-10-04T12:30:07.435Z",
+    //     "__v": 0
+    // },
+    // {
+    //     "_id": "633c63256e0976b7ba3b17e9",
+    //     "title": "Title title title3",
+    //     "body": "body body body3",
+    //     "tags": [
+    //         "hi",
+    //         "boo"
+    //     ],
+    //     "viewerCount": 0,
+    //     "user": "633b2144ad263568ee0fff69",
+    //     "createdAt": "2022-10-04T16:45:25.271Z",
+    //     "updatedAt": "2022-10-04T16:45:25.271Z",
+    //     "__v": 0
+    // }
+    // ]
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      message: 'Failed to load all posts (popular sort)'
+    })
+  }
+}
+
 export const getOne = async (req, res) => {
   try {
     const postId = req.params.id // from dynamic url /:id
