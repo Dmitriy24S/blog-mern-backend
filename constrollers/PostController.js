@@ -265,3 +265,74 @@ export const remove = async (req, res) => {
     })
   }
 }
+
+export const getTopTags = async (req, res) => {
+  try {
+    const tags = await PostModel.aggregate([
+      // Unwind the array
+      { $unwind: '$tags' },
+
+      // Group on tags with a count
+      {
+        $group: {
+          _id: '$tags',
+          count: { $sum: 1 }
+        }
+      },
+
+      // Optionally sort the tags by count descending
+      { $sort: { _id: -1 } },
+
+      // Optionally limit to the top "n" results. Using 10 results here
+      { $limit: 10 }
+    ]).sort({ count: -1 })
+    res.json(tags)
+    // [
+    //   {
+    //   _id: "tutorial",
+    //   count: 1,
+    //   },
+    //   {
+    //   _id: "test",
+    //   count: 2,
+    //   },
+    //   {
+    //   _id: "tag 3",
+    //   count: 1,
+    //   },
+    //   {
+    //   _id: "tag 2",
+    //   count: 2,
+    //   },
+    //   {
+    //   _id: "tag 1",
+    //   count: 1,
+    //   },
+    //   {
+    //   _id: "react",
+    //   count: 2,
+    //   },
+    //   {
+    //   _id: "node",
+    //   count: 1,
+    //   },
+    //   {
+    //   _id: "markdown",
+    //   count: 1,
+    //   },
+    //   {
+    //   _id: "javascript",
+    //   count: 1,
+    //   },
+    //   {
+    //   _id: "guide",
+    //   count: 1,
+    //   },
+    //   ]
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      message: 'Failed to load all tags'
+    })
+  }
+}

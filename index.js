@@ -79,6 +79,7 @@ app.patch(
   PostController.update
 )
 app.delete('/posts/:id', checkAuth, PostController.remove)
+app.get('/tags', PostController.getTopTags)
 
 // Launch server
 // process.env.PORT || 4444
