@@ -9,9 +9,6 @@ import { checkAuth, handleValidationErrors } from './utils/index.js'
 import { loginValidation, postCreateValidation, registerValidation } from './validations.js'
 
 // process.env.MONGO_URI
-// .connect(
-//   'mongodb+srv://admin:12345q@cluster0.mkqqtge.mongodb.net/blog?retryWrites=true&w=majority'
-// )
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {
@@ -80,6 +77,7 @@ app.patch(
 )
 app.delete('/posts/:id', checkAuth, PostController.remove)
 app.get('/tags', PostController.getTopTags)
+app.get('/tags/:tagname', PostController.getAllByTag)
 
 // Launch server
 // process.env.PORT || 4444

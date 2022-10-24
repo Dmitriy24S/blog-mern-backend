@@ -336,3 +336,18 @@ export const getTopTags = async (req, res) => {
     })
   }
 }
+
+export const getAllByTag = async (req, res) => {
+  const tagName = req.params.tagname // from dynamic url /:id
+  console.log('tagname:', tagName)
+  try {
+    const posts = await PostModel.find({ tags: tagName })
+    console.log('posts:', posts)
+    res.json(posts)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      message: 'Failed to load all posts with selected tag'
+    })
+  }
+}
